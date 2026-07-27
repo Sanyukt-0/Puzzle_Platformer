@@ -14,6 +14,12 @@ ASciFiSlidingDoor::ASciFiSlidingDoor()
 	LeftDoor->SetupAttachment(DoorFrame);
 	RightDoor->SetupAttachment(DoorFrame);
 
+	LeftDoor->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	LeftDoor->SetCollisionResponseToAllChannels(ECR_Block);
+
+	RightDoor->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	RightDoor->SetCollisionResponseToAllChannels(ECR_Block);
+
 	bIsMoving = false;
 	bIsReversing = false;
 	MoveSpeed = 200.f;

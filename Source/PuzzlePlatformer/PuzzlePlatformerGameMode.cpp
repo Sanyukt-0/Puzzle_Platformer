@@ -22,7 +22,7 @@ void APuzzlePlatformerGameMode::RespawnPlayer(AController* PlayerController)
     {
         APawn* Pawn = PlayerController->GetPawn();
         if (Pawn) {
-			UE_LOG(LogTemp, Warning, TEXT("Respawning player to start location: %s"), *LevelStartLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Respawning player to start location: %s"), *LevelStartLocation.ToString());
             Pawn->TeleportTo(LevelStartLocation, Pawn->GetActorRotation());
         }
     }
@@ -41,6 +41,14 @@ void APuzzlePlatformerGameMode::KillAndRespawnPlayer(ACharacter* Character)
 void APuzzlePlatformerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+    APlayerController* PC = GetWorld()->GetFirstPlayerController();
+    if (PC) {
+        PC->bShowMouseCursor = false;
+        PC->SetInputMode(FInputModeGameOnly());
+    }
+
+
 
 	APawn* Pawn = UGameplayStatics::GetPlayerPawn(this, 0);
 

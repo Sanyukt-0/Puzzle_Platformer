@@ -31,27 +31,28 @@ void AWallGunManager::BeginPlay()
 			WallGuns.Add(WallGun);
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Found %d Wall Guns"), WallGuns.Num());
+	//UE_LOG(LogTemp, Warning, TEXT("Found %d Wall Guns"), WallGuns.Num());
 
-	GetWorldTimerManager().SetTimer(RandomFireTimerHandle, this, &AWallGunManager::FireRandomGuns, 2.0f, true);
+	GetWorldTimerManager().SetTimer(RandomFireTimerHandle, this, &AWallGunManager::FireRandomGuns, 1.0f, true);
 	
 
 }
 
 void AWallGunManager::FireRandomGuns()
 {
-	UE_LOG(LogTemp, Warning, TEXT("FireRandomGuns called"));
+	//UE_LOG(LogTemp, Warning, TEXT("FireRandomGuns called"));
 
 	if (WallGuns.Num() == 0)
 	{
 		return;
 	}
 
-	int32 NumToFire = FMath::RandRange(2, 3);
+	int32 NumToFire = FMath::RandRange(2, 4);
+
 	Algo::RandomShuffle(WallGuns);
 
 	for (int i = 0; i < NumToFire; i++) {
-		UE_LOG(LogTemp, Warning, TEXT("Firing gun %d"), i);
+		//UE_LOG(LogTemp, Warning, TEXT("Firing gun %d"), i);
 		WallGuns[i]->Fire();
 	}
 }

@@ -13,12 +13,24 @@ ACeilingSpikes::ACeilingSpikes()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 	SpikeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpikeMesh"));
 	RootComponent = SpikeMesh;
+
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	TriggerBox->SetupAttachment(RootComponent);
 
 	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &ACeilingSpikes::OnOverlapBegin);
+
+	DamageBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DamageBox"));
+	DamageBox->SetupAttachment(RootComponent);
+
+	DamageBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	DamageBox->SetCollisionResponseToAllChannels(ECR_Ignore);
+	DamageBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+
+	DamageBox->OnComponentBeginOverlap.AddDynamic(this, &ACeilingSpikes::OnDamageOverlap);
+
 
 	SpikeMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	SpikeMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -68,30 +80,24 @@ void ACeilingSpikes::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, c
 		return;
 	}
 
+}
+
+void ACeilingSpikes::OnDamageOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+
 	if (CurrentState == ESpikesState::Dropping)
 	{
 		ACharacter* Character = Cast<ACharacter>(OtherActor);
+
 		if (!Character) return;
-		if (Character->GetMesh()->IsSimulatingPhysics()) return;
 
-		Character->GetMesh()->SetSimulatePhysics(true);
-		Character->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		Character->GetCharacterMovement()->DisableMovement();
+		APuzzlePlatformerGameMode* GameMode = GetWorld()->GetAuthGameMode<APuzzlePlatformerGameMode>();
+		if (GameMode)
+		{
+			GameMode->RespawnPlayer(Character->GetController());
+		}
 
-		GetWorldTimerManager().SetTimer(RespawnDelayHandle, [this, Character]()
-			{
-				APuzzlePlatformerGameMode* GameMode = GetWorld()->GetAuthGameMode<APuzzlePlatformerGameMode>();
-				if (GameMode)
-				{
-					GameMode->RespawnPlayer(Character->GetController());
-				}
-
-				Character->GetMesh()->SetSimulatePhysics(false);
-				Character->GetMesh()->AttachToComponent(Character->GetCapsuleComponent(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-				Character->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-				Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-			}, 1.0f, false);
-
+		ResetSpikes();
 	}
 }
 
@@ -104,13 +110,13 @@ void ACeilingSpikes::Tick(float DeltaTime)
 	if (CurrentState == ESpikesState::Dropping)
 	{
 		FVector NewLocation = GetActorLocation() + FVector(0, 0, -DropSpeed * DeltaTime);
-		SetActorLocation(NewLocation, true);
+		SetActorLocation(NewLocation, false);
 
 	}
 	else if (CurrentState == ESpikesState::Retracting) {
 
 		FVector NewLocation = GetActorLocation() + FVector(0, 0, RetractSpeed * DeltaTime);
-		SetActorLocation(NewLocation, true);
+		SetActorLocation(NewLocation, false);
 		if (FVector::Dist(NewLocation, OriginalLocation) < 10.0f) {
 			ResetSpikes();
 		}

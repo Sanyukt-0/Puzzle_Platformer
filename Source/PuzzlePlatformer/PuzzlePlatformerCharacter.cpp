@@ -12,6 +12,11 @@
 #include "InputActionValue.h"
 #include "PuzzlePlatformer.h"
 
+void APuzzlePlatformerCharacter::PauseGame(const FInputActionValue& Value)
+{
+
+}
+
 APuzzlePlatformerCharacter::APuzzlePlatformerCharacter()
 {
 	// Set size for collision capsule
@@ -74,6 +79,9 @@ void APuzzlePlatformerCharacter::SetupPlayerInputComponent(UInputComponent* Play
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APuzzlePlatformerCharacter::Look);
+
+		//Pausing
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &APuzzlePlatformerCharacter::PauseGame);
 
 		}
 	else

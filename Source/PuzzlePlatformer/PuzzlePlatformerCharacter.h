@@ -58,6 +58,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* PauseAction;
+
+	void PauseGame(const FInputActionValue& Value);
+
 	int32 JumpCount;
 	int32 MaxJump;
 

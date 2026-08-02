@@ -2,6 +2,7 @@
 
 #include "PuzzlePlatformerGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 APuzzlePlatformerGameMode::APuzzlePlatformerGameMode()
@@ -38,6 +39,58 @@ void APuzzlePlatformerGameMode::KillAndRespawnPlayer(ACharacter* Character)
     GetWorldTimerManager().SetTimer(RespawnDelayHandle, this, &APuzzlePlatformerGameMode::FinishRespawn, 1.0f, false);
 }
 
+void APuzzlePlatformerGameMode::TogglePauseMenu()
+{
+    APlayerController* PC = GetWorld()->GetFirstPlayerController();
+
+    if (!UGameplayStatics::IsGamePaused(GetWorld()))
+    {
+        UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+        if (!PauseMenuWidget && PauseMenuWidgetClass)
+        {
+            PauseMenuWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenuWidgetClass);
+        }
+
+        if (PauseMenuWidget)
+        {
+            PauseMenuWidget->AddToViewport();
+        }
+        if (PC)
+        {
+            PC->bShowMouseCursor = true;
+            PC->SetInputMode(FInputModeUIOnly());
+		}
+    }
+
+    else
+    {
+        UGameplayStatics::SetGamePaused(GetWorld(), false);
+        if (PauseMenuWidget)
+        {
+            PauseMenuWidget->RemoveFromParent();
+        }
+        if (PC)
+        {
+            PC->bShowMouseCursor = false;
+            PC->SetInputMode(FInputModeGameOnly());
+        }
+	}
+}
+
+void APuzzlePlatformerGameMode::ReturnToMainMenu()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ReturnToMainMenu called"));
+
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
+    if (PauseMenuWidget)
+    {
+       PauseMenuWidget->RemoveFromParent();
+	}
+
+    UGameplayStatics::OpenLevel(GetWorld(), FName("MainMenuLevel"));
+}
+
 void APuzzlePlatformerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -47,8 +100,6 @@ void APuzzlePlatformerGameMode::BeginPlay()
         PC->bShowMouseCursor = false;
         PC->SetInputMode(FInputModeGameOnly());
     }
-
-
 
 	APawn* Pawn = UGameplayStatics::GetPlayerPawn(this, 0);
 

@@ -26,6 +26,17 @@ public:
 
 	void KillAndRespawnPlayer(ACharacter* Character);
 
+	UFUNCTION(BlueprintCallable)
+	void TogglePauseMenu();
+
+	UFUNCTION(BlueprintCallable)
+	void ReturnToMainMenu();
+
+	UPROPERTY(EditAnywhere, Category="UI")
+	TSubclassOf<UUserWidget> PauseMenuWidgetClass;
+
+	UUserWidget* PauseMenuWidget;
+
 protected:
 	void BeginPlay() override;
 	

@@ -11,10 +11,15 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "PuzzlePlatformer.h"
+#include "PuzzlePlatformerGameMode.h"
 
 void APuzzlePlatformerCharacter::PauseGame(const FInputActionValue& Value)
 {
-
+	APuzzlePlatformerGameMode* GameMode = GetWorld()->GetAuthGameMode<APuzzlePlatformerGameMode>();
+	if (GameMode)
+	{
+		GameMode->TogglePauseMenu();
+	}
 }
 
 APuzzlePlatformerCharacter::APuzzlePlatformerCharacter()

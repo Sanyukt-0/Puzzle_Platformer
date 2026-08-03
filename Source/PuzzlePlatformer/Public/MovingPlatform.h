@@ -40,4 +40,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Platform")
 	FVector MoveOffset;
 
+	UPROPERTY(EditAnywhere, Category = "Platform")
+	bool bStartInvisible = false;
 };

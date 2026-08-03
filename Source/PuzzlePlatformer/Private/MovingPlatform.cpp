@@ -40,7 +40,11 @@ void AMovingPlatform::Activate()
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("MoveOffset = %s"), *MoveOffset.ToString());
 	StartLocation = GetActorLocation();
 	EndLocation = StartLocation + GetActorForwardVector() * MoveOffset.X + GetActorRightVector() * MoveOffset.Y + GetActorUpVector() * MoveOffset.Z;
+
+	if (bStartInvisible)
+	{
+		PlatformMesh->SetHiddenInGame(true);
+	}
 }

@@ -2,6 +2,7 @@
 
 #include "PuzzlePlatformerGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Character.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -80,8 +81,6 @@ void APuzzlePlatformerGameMode::TogglePauseMenu()
 
 void APuzzlePlatformerGameMode::ReturnToMainMenu()
 {
-    UE_LOG(LogTemp, Warning, TEXT("ReturnToMainMenu called"));
-
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
     if (PauseMenuWidget)
     {
@@ -89,6 +88,33 @@ void APuzzlePlatformerGameMode::ReturnToMainMenu()
 	}
 
     UGameplayStatics::OpenLevel(GetWorld(), FName("MainMenuLevel"));
+}
+
+void APuzzlePlatformerGameMode::ShowThanksForPlaying()
+{
+    APlayerController* PC = GetWorld()->GetFirstPlayerController();
+    if(!ThanksForPlayingWidget && ThanksForPlayingWidgetClass)
+    {
+        ThanksForPlayingWidget = CreateWidget<UUserWidget>(GetWorld(), ThanksForPlayingWidgetClass);
+	}
+
+    if (ThanksForPlayingWidget)
+    {
+        ThanksForPlayingWidget->AddToViewport();
+    }
+    if (PC)
+    {
+        PC->bShowMouseCursor = true;
+		PC->SetInputMode(FInputModeUIOnly());
+
+        ACharacter* Character = Cast<ACharacter>(PC->GetPawn());
+
+        if (Character)
+        {
+            Character->GetCharacterMovement()->DisableMovement();
+        }
+    }
+
 }
 
 void APuzzlePlatformerGameMode::BeginPlay()

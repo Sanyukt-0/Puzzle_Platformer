@@ -37,6 +37,14 @@ public:
 
 	UUserWidget* PauseMenuWidget;
 
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget>ThanksForPlayingWidgetClass;
+
+	UUserWidget* ThanksForPlayingWidget;
+
+	UFUNCTION(BlueprintCallable)
+	void ShowThanksForPlaying();
+
 protected:
 	void BeginPlay() override;
 	

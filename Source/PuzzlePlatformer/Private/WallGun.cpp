@@ -3,6 +3,8 @@
 
 #include "WallGun.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 
 // Sets default values
 AWallGun::AWallGun()
@@ -25,29 +27,21 @@ void AWallGun::BeginPlay()
 
 void AWallGun::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s fired"), *GetName());
-	//UE_LOG(LogTemp, Warning, TEXT("Fire called"));
+	if (FireSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), FireSound, GetActorLocation());
+	}
 
 	for (const FName& Socket : SocketNames)
 	{
 		FVector SocketLoc = GunMesh->GetSocketLocation(Socket);
 		FRotator SocketRot = GunMesh->GetSocketRotation(Socket);
 
-		/*UE_LOG(LogTemp, Warning, TEXT("Socket %s Rot: %s"), *Socket.ToString(), *SocketRot.ToString());*/
-
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
 
 		ALaser* SpawnedLaser = GetWorld()->SpawnActor<ALaser>(LaserClass, SocketLoc, SocketRot, SpawnParams);
 
-		//UE_LOG(LogTemp, Warning, TEXT("SpawnedLaser ptr: %p"), SpawnedLaser);
-
-		//UE_LOG(LogTemp, Warning, TEXT("Laser Owner: %s"),
-		//	SpawnedLaser && SpawnedLaser->GetOwner()
-		//	? *SpawnedLaser->GetOwner()->GetName()
-		//	: TEXT("None"));
-		//UE_LOG(LogTemp, Warning, TEXT("Spawned laser: %s"), SpawnedLaser ? TEXT("Success") : TEXT("Failed"));
-		
 	}
 
 	

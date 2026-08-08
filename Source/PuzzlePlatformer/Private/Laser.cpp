@@ -39,12 +39,6 @@ void ALaser::DestroySelf()
 
 void ALaser::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Actor: %s"),
-	//	OtherActor ? *OtherActor->GetName() : TEXT("None"));
-
-	//UE_LOG(LogTemp, Warning, TEXT("Component: %s"),
-	//	OtherComp ? *OtherComp->GetName() : TEXT("None"));
-
 	if (OtherActor == GetOwner())
 	{
 		return;
@@ -67,7 +61,6 @@ void ALaser::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AAc
 void ALaser::BeginPlay()
 {
 	Super::BeginPlay();
-	//UE_LOG(LogTemp, Warning, TEXT("Laser BeginPlay"));
 
 	LaserMesh->SetSimulatePhysics(false);
 	LaserMesh->SetEnableGravity(false);
@@ -75,9 +68,6 @@ void ALaser::BeginPlay()
 	GetWorldTimerManager().SetTimer(LifetimeTimerHandle, this, &ALaser::DestroySelf, 5.0f, false);
 
 	SetActorTickEnabled(true);
-	//UE_LOG(LogTemp, Warning, TEXT("Can Ever Tick: %d  Tick Enabled: %d"),
-	//	PrimaryActorTick.bCanEverTick,
-	//	IsActorTickEnabled());
 }
 
 // Called every frame
@@ -97,18 +87,5 @@ void ALaser::Tick(float DeltaTime)
 		return;
 	}
 	
-
-	/*if (Hit.bBlockingHit)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Actor: %s"),
-			*Hit.GetActor()->GetName());
-
-		UE_LOG(LogTemp, Warning, TEXT("Component: %s"),
-			*Hit.GetComponent()->GetName());
-
-		Destroy();
-		return;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("Laser Loc: %s"), *GetActorLocation().ToString());*/
 }
 

@@ -4,6 +4,7 @@
 #include "PressurePlate.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
+
 #include "WeightedPressurePlate.h"
 
 APressurePlate::APressurePlate()
@@ -20,6 +21,8 @@ APressurePlate::APressurePlate()
 
 void APressurePlate::Activate()
 {
+
+
 	for (APuzzleActorBase* Actor : TargetActors)
 	{
 		if (Actor)
@@ -27,6 +30,8 @@ void APressurePlate::Activate()
 			Actor->Activate();
 		}
 	}
+
+
 }
 
 

@@ -2,6 +2,7 @@
 
 
 #include "WeightedPressurePlate.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AWeightedPressurePlate::AWeightedPressurePlate()
@@ -26,6 +27,15 @@ AWeightedPressurePlate::AWeightedPressurePlate()
 
 void AWeightedPressurePlate::Activate()
 {
+	if (ActivateSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(
+			GetWorld(),
+			ActivateSound,
+			GetActorLocation()
+		);
+	}
+
 	for(APuzzleActorBase* Actor : TargetActors)
 	{
 		if (Actor) {

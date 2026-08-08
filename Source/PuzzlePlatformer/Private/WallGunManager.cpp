@@ -33,7 +33,7 @@ void AWallGunManager::BeginPlay()
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Found %d Wall Guns"), WallGuns.Num());
 
-	GetWorldTimerManager().SetTimer(RandomFireTimerHandle, this, &AWallGunManager::FireRandomGuns, 1.0f, true);
+	//GetWorldTimerManager().SetTimer(RandomFireTimerHandle, this, &AWallGunManager::FireRandomGuns, 1.0f, true);
 	
 
 }
@@ -57,10 +57,34 @@ void AWallGunManager::FireRandomGuns()
 	}
 }
 
+void AWallGunManager::Activate()
+{
+	if (!GetWorldTimerManager().IsTimerActive(RandomFireTimerHandle))
+	{
+		GetWorldTimerManager().SetTimer(
+			RandomFireTimerHandle,
+			this,
+			&AWallGunManager::FireRandomGuns,
+			1.0f,
+			true
+		);
+	}
+}
+
+void AWallGunManager::Deactivate()
+{
+	//GetWorldTimerManager().ClearTimer(RandomFireTimerHandle);
+}
+
 // Called every frame
 void AWallGunManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AWallGunManager::ResetWallGuns()
+{
+	GetWorldTimerManager().ClearTimer(RandomFireTimerHandle);
 }
 

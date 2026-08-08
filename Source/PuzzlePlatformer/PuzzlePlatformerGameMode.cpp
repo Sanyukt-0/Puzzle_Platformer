@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PuzzlePlatformerGameMode.h"
+#include "WallGunManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Character.h"
 #include "Blueprint/UserWidget.h"
@@ -24,7 +25,6 @@ void APuzzlePlatformerGameMode::RespawnPlayer(AController* PlayerController)
     {
         APawn* Pawn = PlayerController->GetPawn();
         if (Pawn) {
-			//UE_LOG(LogTemp, Warning, TEXT("Respawning player to start location: %s"), *LevelStartLocation.ToString());
             Pawn->TeleportTo(LevelStartLocation, Pawn->GetActorRotation());
         }
     }
@@ -34,10 +34,25 @@ void APuzzlePlatformerGameMode::KillAndRespawnPlayer(ACharacter* Character)
 {
     if (!Character) return;
 
+    AWallGunManager* WallGunManager =
+        Cast<AWallGunManager>(
+            UGameplayStatics::GetActorOfClass(
+                GetWorld(),
+                AWallGunManager::StaticClass()
+            )
+        );
+
+    if (WallGunManager)
+    {
+        WallGunManager->ResetWallGuns();
+    }
+
+    if (!Character) return;
+
     CachedCharacter = Character;
     Character->GetCharacterMovement()->DisableMovement();
 
-    GetWorldTimerManager().SetTimer(RespawnDelayHandle, this, &APuzzlePlatformerGameMode::FinishRespawn, 1.0f, false);
+    GetWorldTimerManager().SetTimer(RespawnDelayHandle, this, &APuzzlePlatformerGameMode::FinishRespawn, 0.4f, false);
 }
 
 void APuzzlePlatformerGameMode::TogglePauseMenu()

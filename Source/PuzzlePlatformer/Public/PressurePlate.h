@@ -35,4 +35,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Pressure Plate")
 	TArray<APuzzleActorBase*> TargetActors;
 
+
+
 };

@@ -2,6 +2,7 @@
 
 
 #include "SciFiSlidingDoor.h"
+#include "Kismet/GameplayStatics.h"
 
 ASciFiSlidingDoor::ASciFiSlidingDoor()
 {
@@ -69,6 +70,11 @@ void ASciFiSlidingDoor::Tick(float DeltaTime)
 
 void ASciFiSlidingDoor::Activate()
 {
+	if (OpenSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), OpenSound, GetActorLocation());
+	}
+
 	bIsReversing = false;
 	bIsMoving = true;
 }

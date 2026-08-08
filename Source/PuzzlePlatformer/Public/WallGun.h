@@ -36,6 +36,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Laser")
 	TArray<FName> SocketNames;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* FireSound;
 
 	FTimerHandle FireTimerHandle;
 

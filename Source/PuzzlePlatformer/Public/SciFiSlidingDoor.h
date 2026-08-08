@@ -47,5 +47,8 @@ protected:
 	bool bIsMoving;
 	bool bIsReversing;
 	float MoveSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* OpenSound;
 	
 };

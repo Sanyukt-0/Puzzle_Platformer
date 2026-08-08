@@ -34,7 +34,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pressure Plate")
 	UBoxComponent* TriggerBox;
 
-	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* ActivateSound;
 
 	UPROPERTY(EditAnywhere, Category = "Pressure Plate")
 	TArray<APuzzleActorBase*> TargetActors;

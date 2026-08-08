@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PuzzleActorBase.h"
 #include "WallGunManager.generated.h"
 
 class AWallGun;
 
 UCLASS()
-class PUZZLEPLATFORMER_API AWallGunManager : public AActor
+class PUZZLEPLATFORMER_API AWallGunManager : public APuzzleActorBase
 {
 	GENERATED_BODY()
 	
@@ -28,8 +29,12 @@ protected:
 
 	void FireRandomGuns();
 
+	virtual void Activate() override;
+	virtual void Deactivate() override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void ResetWallGuns();
 
 };

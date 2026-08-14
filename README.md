@@ -77,9 +77,6 @@ Interactive pressure plates activate gameplay elements such as doors and other e
 
 Doors can be controlled through gameplay systems and activated through environmental interactions.
 
-### Moving Platforms
-
-Platforms move between designated locations, requiring the player to carefully time their movement.
 
 ### Falling / Fake Platforms
 

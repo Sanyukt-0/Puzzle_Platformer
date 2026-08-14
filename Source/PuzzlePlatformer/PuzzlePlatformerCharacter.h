@@ -20,13 +20,6 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  */
 
 
-UENUM()
-enum class EWallSide : uint8 {
-	Left,
-	Right
-};
-
-
 UCLASS(abstract)
 class APuzzlePlatformerCharacter : public ACharacter
 {
@@ -66,33 +59,15 @@ protected:
 	int32 JumpCount;
 	int32 MaxJump;
 
-	bool bIsWallRunning;
-	float WallRunTimer;
-
-	EWallSide WallSide;
-
-	FVector WallNormal;
-
-	bool bWallRunCooldown;
-	FTimerHandle WallRunCooldownTimer;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* SprintAction;
-
-	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* GravityFlipAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Movement")
 	float NormalSpeed = 500.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float SprintSpeed = 700.0f;
-
-
-	bool bIsGravityFlipped;
-	bool bIsGravityFlipCooldown;
-	FTimerHandle GravityFlipCooldownTimer;
-
 
 public:
 
@@ -110,14 +85,6 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	void StartWallRun();
-	void StopWallRun();
-	void UpdateWallRun(float DeltaTime);
-
-	virtual void MoveBlockedBy(const FHitResult& Impact) override;
-
-	void DoGravityFlip();
-	void StopGravityFlip();
 
 public:
 

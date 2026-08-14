@@ -3,6 +3,8 @@
 
 #include "Laser.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 #include "PuzzlePlatformerGameMode.h"
 
 // Sets default values
@@ -48,6 +50,11 @@ void ALaser::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AAc
 
 	if (Character)
 	{
+		if(ImpactSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation());
+		}
+
 		APuzzlePlatformerGameMode* GameMode = GetWorld()->GetAuthGameMode<APuzzlePlatformerGameMode>();
 		if (GameMode)
 		{

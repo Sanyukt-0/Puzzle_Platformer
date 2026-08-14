@@ -31,10 +31,6 @@ void AWallGunManager::BeginPlay()
 			WallGuns.Add(WallGun);
 		}
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("Found %d Wall Guns"), WallGuns.Num());
-
-	//GetWorldTimerManager().SetTimer(RandomFireTimerHandle, this, &AWallGunManager::FireRandomGuns, 1.0f, true);
-	
 
 }
 

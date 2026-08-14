@@ -81,6 +81,11 @@ void ASciFiSlidingDoor::Activate()
 
 void ASciFiSlidingDoor::Deactivate()
 {
+	if (CloseSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),CloseSound,GetActorLocation());
+	}
+
 	bIsMoving = false;
 	bIsReversing = true;
 }

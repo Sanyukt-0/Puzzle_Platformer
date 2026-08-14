@@ -3,6 +3,8 @@
 
 #include "CeilingSpikes.h"
 #include "PuzzlePlatformerGameMode.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -55,6 +57,11 @@ void ACeilingSpikes::BeginPlay()
 
 void ACeilingSpikes::StartDrop()
 {
+	if (DropSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),DropSound,GetActorLocation());
+	}
+
 	CurrentState = ESpikesState::Dropping;
 	GetWorldTimerManager().SetTimer(DelayTimerHandle, this, &ACeilingSpikes::StartRetract, 1.0f, false);
 }

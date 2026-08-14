@@ -60,7 +60,10 @@ protected:
 	void StartRetract();
 	void ResetSpikes();
 
-	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* DropSound;
+
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

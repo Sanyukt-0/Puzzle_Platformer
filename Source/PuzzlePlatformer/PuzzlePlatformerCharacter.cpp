@@ -113,114 +113,6 @@ void APuzzlePlatformerCharacter::Look(const FInputActionValue& Value)
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
 }
 
-void APuzzlePlatformerCharacter::StartWallRun()
-{
-	if (bIsWallRunning) {
-		return;
-	}
-	if (bWallRunCooldown) return;
-
-	bIsWallRunning = true;
-	GetCharacterMovement()->GravityScale = 0.0f;
-	WallRunTimer = 0.0f;
-}
-
-void APuzzlePlatformerCharacter::StopWallRun()
-{
-	bWallRunCooldown = true;
-	GetWorldTimerManager().SetTimer(WallRunCooldownTimer, [this]() {
-		bWallRunCooldown = false;
-		}, 0.5f, false);
-
-	bIsWallRunning = false;
-	GetCharacterMovement()->GravityScale = 1.0f;
-}
-
-void APuzzlePlatformerCharacter::UpdateWallRun(float DeltaTime)
-{
-	WallRunTimer += DeltaTime;
-
-	FHitResult WallHit;
-
-
-	if(GetWorld()->LineTraceSingleByChannel(WallHit, GetActorLocation(), GetActorLocation() + (GetActorRightVector() * (WallSide == EWallSide::Left ? -1 : 1) * 50.0f), ECC_Visibility))
-	{
-		if (!WallHit.bBlockingHit) {
-			StopWallRun();
-			return;
-		}
-	}
-	else
-	{
-		StopWallRun();
-		return;
-	}
-
-	if (WallRunTimer > 2.0f) {
-		StopWallRun();
-	}
-
-	if (GetCharacterMovement()->GetCurrentAcceleration().IsNearlyZero()) {
-
-		GetCharacterMovement()->GravityScale = 1.0f;
-		return;
-	}
-
-	GetCharacterMovement()->GravityScale =0.0f;
-	
-	FVector RunDirection = FVector::CrossProduct(WallNormal, FVector::UpVector);
-	RunDirection = (WallSide == EWallSide::Left) ? RunDirection : -RunDirection;
-	GetCharacterMovement()->Velocity = RunDirection * 600.0f;
-}
-
-void APuzzlePlatformerCharacter::MoveBlockedBy(const FHitResult& Impact)
-{	
-	if (bIsGravityFlipped) return;
-
-	WallNormal = Impact.Normal;
-
-	float res = FVector::DotProduct(GetActorRightVector(), WallNormal);
-
-	if (res > 0) {
-		WallSide = EWallSide::Left;
-	}
-	else {
-		WallSide = EWallSide::Right;
-	}
-
-	if ((GetCharacterMovement()->IsFalling()) && FVector::DotProduct(GetCharacterMovement()->Velocity, WallNormal) < 0) {
-		StartWallRun();
-	}
-}
-
-// TODO: Fix movement orientation when gravity is flipped
-// TODO: Add inverted animation state in Animation Blueprint
-void APuzzlePlatformerCharacter::DoGravityFlip()
-{
-	if (bIsGravityFlipCooldown) return;
-
-	if (!bIsGravityFlipped) {
-		GetCharacterMovement()->GravityScale = -1.0f;
-		LaunchCharacter(FVector(0.0f, 0.0f, 100.0f), false, true);
-		GetMesh()->SetRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));
-		bIsGravityFlipped = true;
-	}
-	else {
-		GetCharacterMovement()->GravityScale = 1.0f;
-		GetMesh()->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
-		bIsGravityFlipped = false;
-	}
-
-	bIsGravityFlipCooldown = true;
-	GetWorldTimerManager().SetTimer(GravityFlipCooldownTimer, [this]() {
-		bIsGravityFlipCooldown = false;
-		}, 0.5f, false);
-}
-
-
-void APuzzlePlatformerCharacter::StopGravityFlip()
-{
-}
 
 void APuzzlePlatformerCharacter::DoMove(float Right, float Forward)
 {
@@ -255,20 +147,6 @@ void APuzzlePlatformerCharacter::DoLook(float Yaw, float Pitch)
 void APuzzlePlatformerCharacter::DoJumpStart()
 {
 	// signal the character to jump
-	float horizontalForce = 800.0f;
-	float verticalForce = 500.0f;
-
-	if (bIsWallRunning) {
-		FVector JumpDirection = FVector::CrossProduct(WallNormal, FVector::UpVector);
-		JumpDirection = (WallSide == EWallSide::Left) ? JumpDirection : -JumpDirection;
-		//LaunchCharacter(((JumpDirection * horizontalForce) + (FVector::UpVector * verticalForce)), true, true);
-		LaunchCharacter((WallNormal * horizontalForce) + (FVector::UpVector * verticalForce), true, true);
-
-		StopWallRun();
-		JumpCount++;
-		return;
-	}
-
 
 	if (JumpCount < MaxJump) {
 
@@ -300,11 +178,6 @@ void APuzzlePlatformerCharacter::Tick(float DeltaTime)
 {
 
 	Super::Tick(DeltaTime);
-
-	if(bIsWallRunning)
-	{
-		UpdateWallRun(DeltaTime);
-	}
 }
 
 void APuzzlePlatformerCharacter::DoSprintStart()

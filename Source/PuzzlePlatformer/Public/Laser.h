@@ -22,6 +22,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* ImpactSound;
+
 	UPROPERTY(EditAnywhere, Category = "Laser")
 	UBoxComponent* CollisionBox;
 

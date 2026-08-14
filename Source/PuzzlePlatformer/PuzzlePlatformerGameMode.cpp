@@ -52,7 +52,7 @@ void APuzzlePlatformerGameMode::KillAndRespawnPlayer(ACharacter* Character)
     CachedCharacter = Character;
     Character->GetCharacterMovement()->DisableMovement();
 
-    GetWorldTimerManager().SetTimer(RespawnDelayHandle, this, &APuzzlePlatformerGameMode::FinishRespawn, 0.4f, false);
+    GetWorldTimerManager().SetTimer(RespawnDelayHandle, this, &APuzzlePlatformerGameMode::FinishRespawn, 0.8f, false);
 }
 
 void APuzzlePlatformerGameMode::TogglePauseMenu()

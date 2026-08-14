@@ -50,5 +50,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* OpenSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* CloseSound;
 	
 };

@@ -1,35 +1,93 @@
-# Puzzle Platformer (Work in Progress)
+# One Wrong Step
 
-> 🚧 This project is currently under active development.
+> A 3D puzzle platformer where every step could be your last.
 
-**Playable Build:** Coming Soon
-
-> ⚠️ This repository contains the C++ source code and project configuration files only. Unreal Engine assets are intentionally excluded to keep the repository lightweight and focused on the gameplay programming implementation.
+🎮 **[Play One Wrong Step on itch.io](https://bunnux.itch.io/one-wrong-step)**
 
 ---
 
 ## Project Overview
 
-Puzzle Platformer is a 3D puzzle platformer built in **Unreal Engine 5.7** using **C++**. This project is being developed as part of my gameplay programming portfolio to demonstrate object-oriented programming, modular gameplay systems, and interactive puzzle mechanics.
+**One Wrong Step** is a 3D puzzle platformer developed in **Unreal Engine 5.7** using **C++** and **Blueprints**.
+
+The game combines platforming challenges, environmental puzzles, deceptive platforms, and traps. Players must carefully navigate each level, observe their surroundings, and figure out the safest path forward.
+
+This project was developed as part of my gameplay programming portfolio to demonstrate gameplay programming, object-oriented programming, interactive gameplay systems, and level design in Unreal Engine.
 
 ---
 
-## Current Features
+## Features
 
 - ✅ Pressure Plate System
 - ✅ Sliding Doors
 - ✅ Moving Platforms
-- ✅ Falling/Fake Platforms
-- 🚧 Additional puzzle mechanics (In Progress)
-- 🚧 Level design and gameplay polish
+- ✅ Falling / Fake Platforms
+- ✅ Multiple Puzzle Levels
+- ✅ Trap-Based Platforming
+- ✅ Sprint System
+- ✅ Double Jump
+- ✅ Main Menu
+- ✅ Pause Menu
+- ✅ Win / Completion Screen
+- ✅ Sound Effects
+- ✅ Player Death & Respawn
+- ✅ Windows Packaged Build
 
 ---
 
 ## Technologies Used
 
-- Unreal Engine 5.7
-- C++
-- Visual Studio 2022
+- **Unreal Engine 5.7**
+- **C++**
+- **Blueprints**
+- **Visual Studio 2022**
+
+---
+
+## Controls
+
+| Action | Key |
+|---|---|
+| Move | W / A / S / D |
+| Jump | Space |
+| Double Jump | Space ×2 |
+| Sprint | Left Shift |
+| Look / Camera | Mouse |
+| Pause | Esc |
+
+---
+
+## Gameplay
+
+The objective is to navigate through challenging platforming sections while avoiding traps and identifying safe paths.
+
+Some platforms may not behave as expected, so players must observe their surroundings and carefully plan their movement.
+
+> **Trust nothing. Every step could be your last.**
+
+---
+
+## Gameplay Systems
+
+### Pressure Plates
+
+Interactive pressure plates activate gameplay elements such as doors and other environmental mechanisms.
+
+### Sliding Doors
+
+Doors can be controlled through gameplay systems and activated through environmental interactions.
+
+### Moving Platforms
+
+Platforms move between designated locations, requiring the player to carefully time their movement.
+
+### Falling / Fake Platforms
+
+Certain platforms are designed to fall after being triggered, adding an element of unpredictability to the levels.
+
+### Trap-Based Platforming
+
+The levels combine traditional platforming with deceptive mechanics and unexpected hazards, encouraging players to learn from their mistakes.
 
 ---
 
@@ -39,94 +97,3 @@ Puzzle Platformer is a 3D puzzle platformer built in **Unreal Engine 5.7** using
 Source/
 Config/
 PuzzlePlatformer.uproject
-```
-
-This repository focuses on the gameplay source code and project configuration. Large Unreal Engine asset files are intentionally excluded.
-
----
-
-## Controls
-
-| Action | Key |
-|---------|-----|
-| Move | WASD |
-| Jump | Space |
-| Sprint | Left Shift |
-
----
-
-## Development Roadmap
-
-### Phase 1 – Core Gameplay Systems
-- [x] Pressure Plate System
-- [x] Sliding Doors
-- [x] Moving Platforms
-- [x] Falling/Fake Platforms
-
-### Phase 2 – Level Development
-- [ ] Design and complete three puzzle levels
-- [ ] Add checkpoint system
-- [ ] Introduce additional puzzle mechanics
-- [ ] Improve level flow and difficulty progression
-
-### Phase 3 – Polish & Release
-- [ ] Main Menu
-- [ ] Pause Menu
-- [ ] Sound Effects
-- [ ] Background Music
-- [ ] Visual Polish
-- [ ] Gameplay Trailer
-- [ ] Windows Packaged Build
-
----
-
-## Screenshots
-
-Gameplay screenshots will be added as development progresses.
-
----
-
-## Gameplay
-
-A gameplay trailer and downloadable Windows build will be available after the first complete version is finished.
-
----
-
-## Learning Goals
-
-This project is focused on demonstrating:
-
-- Gameplay Programming in Unreal Engine
-- Object-Oriented Design in C++
-- Modular and Reusable Gameplay Systems
-- Interactive Puzzle Mechanics
-- Clean and Maintainable Code Architecture
-
----
-
-## Current Status
-
-**Version:** Early Development
-
-This project is actively being developed and will continue to receive new gameplay mechanics, improved level design, and additional polish over time.
-
----
-
-## Future Improvements
-
-- Additional puzzle mechanics
-- More interactive environmental objects
-- Better visual effects
-- Audio feedback
-- Optimized gameplay systems
-- Improved UI/UX
-
----
-
-## Author
-
-**SANYUKT BHATT**
-
-Gameplay Programmer | Unreal Engine Developer
-
-GitHub: https://github.com/Sanyukt-0
